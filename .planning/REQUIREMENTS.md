@@ -25,14 +25,14 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **STAT-01**: Animated counters roll up from 0 for messages sent, delivered, failed, and deliverability %
 - [x] **STAT-02**: Delivery percentage displayed as circular gauge or progress bar
-- [ ] **STAT-03**: Industry benchmark popup celebrates when deliverability exceeds 85-92% average
+- [x] **STAT-03**: Industry benchmark popup celebrates when deliverability exceeds 85-92% average
 - [x] **STAT-04**: Numbers shake/pulse with satisfying effect when counters finish
 
 ### Celebration
 
 - [ ] **CELB-01**: Confetti burst fires after stats reveal completes
 - [ ] **CELB-02**: Floating voter reaction bubbles (thumbs up, hearts, "Great message!") rise from bottom of screen
-- [ ] **CELB-03**: All elements revealed in choreographed sequence (map → dots → stats → benchmark → confetti → reactions)
+- [x] **CELB-03**: All elements revealed in choreographed sequence (map → dots → stats → benchmark → confetti → reactions)
 - [ ] **CELB-04**: Share button lets candidates forward report via Web Share API with clipboard fallback
 
 ### Foundation
@@ -89,11 +89,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | MAP-04 | Phase 2 | Complete |
 | STAT-01 | Phase 3 | Complete |
 | STAT-02 | Phase 3 | Complete |
-| STAT-03 | Phase 3 | Pending |
+| STAT-03 | Phase 3 | Complete |
 | STAT-04 | Phase 3 | Complete |
 | CELB-01 | Phase 4 | Pending |
 | CELB-02 | Phase 4 | Pending |
-| CELB-03 | Phase 3 | Pending |
+| CELB-03 | Phase 3 | Complete |
 | CELB-04 | Phase 4 | Pending |
 | FOUN-01 | Phase 4 | Pending |
 | FOUN-02 | Phase 4 | Pending |
