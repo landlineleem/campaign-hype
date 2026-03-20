@@ -61,11 +61,11 @@ Plans:
   3. Numbers shake or pulse when each counter finishes
   4. An industry benchmark popup appears and celebrates when deliverability exceeds the 85-92% average
   5. Every reveal element fires in sequence — map then dots then stats then benchmark — with no overlap or timing chaos
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 03-01: Promise-chain sequencer, stat counter animations, gauge/progress bar
-- [ ] 03-02: Industry benchmark popup, shake/pulse micro-animations, sequence choreography wiring
+- [ ] 03-01-PLAN.md — overlay.js (revealStats: counter rollup, SVG gauge, shake/pulse), stat panel HTML + CSS
+- [ ] 03-02-PLAN.md — showBenchmarkPopup (benchmark popup HTML/CSS/logic), main.js full sequence wiring
 
 ### Phase 4: Celebration and Polish
 **Goal**: The complete experience ends with confetti and floating voter reactions, candidates can share their report, and the product performs well on mobile
@@ -92,5 +92,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete   | 2026-03-20 |
 | 2. Map Experience | 1/2 | In Progress|  |
-| 3. Stats and Sequence | 0/2 | Not started | - |
+| 3. Stats and Sequence | 0/2 | Planning complete | - |
 | 4. Celebration and Polish | 0/2 | Not started | - |
