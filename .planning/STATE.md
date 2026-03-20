@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: Completed 01-02-PLAN.md — Admin form, history module, report page candidate display
-last_updated: "2026-03-20T20:52:57.338Z"
+stopped_at: Completed 02-01-PLAN.md — MapLibre map foundation, voter data generator, WebGL recovery
+last_updated: "2026-03-20T21:14:18.126Z"
 last_activity: "2026-03-20 — 01-02 complete: Admin form, history, report page candidate display"
 progress:
   total_phases: 4
   completed_phases: 1
-  total_plans: 2
-  completed_plans: 2
+  total_plans: 4
+  completed_plans: 3
   percent: 20
 ---
 
@@ -50,6 +50,7 @@ Progress: [██░░░░░░░░] 20%
 - Trend: baseline
 
 *Updated after each plan completion*
+| Phase 02-map-experience P01 | 4 | 3 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -68,6 +69,9 @@ Recent decisions affecting current work:
 - [01-02]: admin/history.js extracted as DOM-free module so Vitest/Node can test it without DOM mocks — form.js has DOM side effects on import
 - [01-02]: window.__reportPayload assignment in report/main.js is intentional scaffolding for Phase 2 map sequencer
 - [01-02]: textContent exclusively for URL-decoded/form-submitted data — no innerHTML exceptions
+- [Phase 02-map-experience]: preserveDrawingBuffer:false kept explicit — prevents iOS Safari WebGL context loss doubling
+- [Phase 02-map-experience]: Overlay divs at body level (not inside #map-container) to escape MapLibre CSS stacking context
+- [Phase 02-map-experience]: 5000-point voter data cap — visual quality plateaus above this, mobile GPU cost keeps climbing
 
 ### Pending Todos
 
@@ -81,6 +85,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-20
-Stopped at: Completed 01-02-PLAN.md — Admin form, history module, report page candidate display
+Last session: 2026-03-20T21:14:18.123Z
+Stopped at: Completed 02-01-PLAN.md — MapLibre map foundation, voter data generator, WebGL recovery
 Resume file: None

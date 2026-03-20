@@ -16,10 +16,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Map
 
-- [ ] **MAP-01**: Report opens with full USA map view
+- [x] **MAP-01**: Report opens with full USA map view
 - [ ] **MAP-02**: Map performs cinematic flyTo zoom from USA to candidate's district with 3D pitch/bearing
 - [ ] **MAP-03**: Cascading dot animation shows messages being delivered across the district after zoom completes
-- [ ] **MAP-04**: Map is mobile-responsive and touch-friendly
+- [x] **MAP-04**: Map is mobile-responsive and touch-friendly
 
 ### Stats
 
@@ -83,10 +83,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DATA-02 | Phase 1 | Complete |
 | DATA-03 | Phase 1 | Complete |
 | DATA-04 | Phase 1 | Complete |
-| MAP-01 | Phase 2 | Pending |
+| MAP-01 | Phase 2 | Complete |
 | MAP-02 | Phase 2 | Pending |
 | MAP-03 | Phase 2 | Pending |
-| MAP-04 | Phase 2 | Pending |
+| MAP-04 | Phase 2 | Complete |
 | STAT-01 | Phase 3 | Pending |
 | STAT-02 | Phase 3 | Pending |
 | STAT-03 | Phase 3 | Pending |
