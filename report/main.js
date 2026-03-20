@@ -8,6 +8,7 @@ import { getDistrict } from '../shared/districts.js';
 import { createMap, addVoterLayers } from './map.js';
 import { generateVoterData } from './data.js';
 import { playCameraSequence, runDotCascade } from './sequencer.js';
+import { revealStats, showBenchmarkPopup } from './overlay.js';
 
 const payload = decodeReport();
 
@@ -75,11 +76,14 @@ if (!payload) {
         },
       });
 
-      // Stage 3 placeholder (Phase 3: reveal stat counters + benchmark popup)
-      // await overlay.revealStats(payload);
-      // await overlay.showComparisonPopup(payload);
+      // Stage 3: Stat counters roll up from 0 — all four in parallel, resolve when last finishes
+      await revealStats(payload);
 
-      console.log('[main.js] Phase 2 sequence complete — ready for Phase 3 stats');
+      // Stage 4: Industry benchmark popup — celebrates deliverability vs 85-92% industry average
+      // Resolves when user dismisses (tap/click) or automatically after overlay click
+      await showBenchmarkPopup(payload);
+
+      console.log('[main.js] Phase 3 sequence complete');
     })();
   });
 }

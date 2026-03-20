@@ -168,15 +168,67 @@ export function revealStats(payload) {
   });
 }
 
+const INDUSTRY_FLOOR = 85;
+const INDUSTRY_CEIL  = 92;
+
 /**
- * showBenchmarkPopup — stub for Phase 3 Plan 02
- * Will display a comparison popup showing district/national deliverability benchmarks.
+ * showBenchmarkPopup — Phase 3 Plan 02
+ * Displays the industry benchmark popup with deliverabilityPct and a contextual message.
+ * Resolves when the user dismisses the popup (button click or overlay background click).
  *
- * @param {Object} payload — decoded report payload
+ * Message logic:
+ *   pct >= 92  -> "CRUSHED the industry average!"   (gold celebration)
+ *   pct >= 85  -> "Beat the industry average!"      (positive)
+ *   pct < 85   -> "Campaign delivery results"       (neutral, no judgment)
+ *
+ * @param {Object} payload — decoded report payload with deliverabilityPct
  * @returns {Promise<void>}
  */
-export function showBenchmarkPopup(payload) { // TODO Phase 3 Plan 02
-  return Promise.resolve();
+export function showBenchmarkPopup(payload) {
+  return new Promise((resolve) => {
+    const popup  = document.getElementById('benchmark-popup');
+    const pctEl  = document.getElementById('benchmark-pct');
+    const msgEl  = document.getElementById('benchmark-message');
+    const dismiss = document.getElementById('benchmark-dismiss');
+
+    if (!popup || !pctEl || !msgEl) {
+      console.warn('[overlay.js] benchmark popup elements not found — skipping');
+      resolve();
+      return;
+    }
+
+    // Populate content — textContent only, never innerHTML
+    pctEl.textContent = payload.deliverabilityPct.toFixed(1) + '%';
+
+    if (payload.deliverabilityPct >= INDUSTRY_CEIL) {
+      msgEl.textContent = 'CRUSHED the industry average!';
+    } else if (payload.deliverabilityPct >= INDUSTRY_FLOOR) {
+      msgEl.textContent = 'Beat the industry average!';
+    } else {
+      msgEl.textContent = 'Campaign delivery results';
+    }
+
+    popup.style.display = 'flex';
+
+    // Dismiss: clicking the dismiss button OR anywhere on the dark overlay background
+    function onDismiss() {
+      popup.style.display = 'none';
+      popup.removeEventListener('click', onDismiss);
+      if (dismiss) dismiss.removeEventListener('click', onDismiss);
+      resolve();
+    }
+
+    // Clicking the overlay background (not just the card) also dismisses
+    popup.addEventListener('click', onDismiss);
+    // Prevent card clicks from bubbling to overlay (so card interior doesn't dismiss)
+    const card = document.getElementById('benchmark-card');
+    if (card) {
+      card.addEventListener('click', (e) => e.stopPropagation());
+    }
+    if (dismiss) {
+      dismiss.addEventListener('click', onDismiss);
+    }
+  });
 }
 
 /**
