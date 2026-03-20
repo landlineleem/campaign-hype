@@ -46,6 +46,43 @@
     <p class="report-subtitle">Your Campaign Results</p>
   </div>
 
+  <!-- Layer 4b: Stats panel — revealed by overlay.revealStats() after dot cascade -->
+  <div id="stats-panel" class="overlay-layer stats-panel-layer" style="display:none">
+    <div class="stats-grid">
+
+      <div class="stat-card" id="stat-sent">
+        <div class="stat-value" id="stat-sent-value">0</div>
+        <div class="stat-label">Messages Sent</div>
+      </div>
+
+      <div class="stat-card" id="stat-delivered">
+        <div class="stat-value" id="stat-delivered-value">0</div>
+        <div class="stat-label">Delivered</div>
+      </div>
+
+      <div class="stat-card" id="stat-failed">
+        <div class="stat-value" id="stat-failed-value">0</div>
+        <div class="stat-label">Failed</div>
+      </div>
+
+      <div class="stat-card stat-card--pct" id="stat-pct">
+        <svg class="pct-gauge" viewBox="0 0 100 100" aria-hidden="true">
+          <circle class="pct-gauge__track" cx="50" cy="50" r="38"
+                  fill="none" stroke="rgba(255,184,0,0.12)" stroke-width="6"/>
+          <circle class="pct-gauge__fill" id="pct-gauge-fill" cx="50" cy="50" r="38"
+                  fill="none" stroke="#FFB800" stroke-width="6"
+                  stroke-linecap="round"
+                  stroke-dasharray="238.76"
+                  stroke-dashoffset="238.76"
+                  transform="rotate(-90 50 50)"/>
+        </svg>
+        <div class="stat-value pct-value" id="stat-pct-value">0.0%</div>
+        <div class="stat-label">Deliverability</div>
+      </div>
+
+    </div>
+  </div>
+
   <script type="module" src="./main.js"></script>
 </body>
 </html>
