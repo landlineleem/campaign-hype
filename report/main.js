@@ -8,7 +8,7 @@ import { getDistrict } from '../shared/districts.js';
 import { createMap, addVoterLayers } from './map.js';
 import { generateVoterData } from './data.js';
 import { playCameraSequence, runDotCascade } from './sequencer.js';
-import { revealStats, showBenchmarkPopup } from './overlay.js';
+import { revealStats, showBenchmarkPopup, celebrate } from './overlay.js';
 
 const payload = decodeReport();
 
@@ -83,7 +83,10 @@ if (!payload) {
       // Resolves when user dismisses (tap/click) or automatically after overlay click
       await showBenchmarkPopup(payload);
 
-      console.log('[main.js] Phase 3 sequence complete');
+      // Stage 5: Confetti burst + floating voter reaction bubbles — the finale
+      await celebrate(payload);
+
+      console.log('[main.js] Full sequence complete');
     })();
   });
 }

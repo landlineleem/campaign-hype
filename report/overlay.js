@@ -2,15 +2,17 @@
  * report/overlay.js — DOM overlay controller for Campaign Hype report page
  *
  * Exports:
- *   revealStats(payload)      — Phase 3 Plan 01: animated stat counter rollup
- *   showBenchmarkPopup(payload) — TODO Phase 3 Plan 02: comparison popup
- *   celebrate()               — TODO Phase 4: confetti / celebration
+ *   revealStats(payload)        — Phase 3 Plan 01: animated stat counter rollup
+ *   showBenchmarkPopup(payload) — Phase 3 Plan 02: comparison popup
+ *   celebrate(payload)          — Phase 4: confetti burst + floating voter reaction bubbles
  *
  * CRITICAL constraints:
  *   - Never import from map.js (architecture boundary: overlay never calls map)
  *   - Never use innerHTML — textContent only
  *   - Called by sequencer/main.js, not by user interaction — no event listeners added here
  */
+
+import confetti from 'canvas-confetti';
 
 // Gauge math: r=38, circumference = 2 * PI * 38
 const GAUGE_CIRCUMFERENCE = 2 * Math.PI * 38; // 238.76
@@ -232,11 +234,102 @@ export function showBenchmarkPopup(payload) {
 }
 
 /**
- * celebrate — stub for Phase 4
- * Will trigger confetti or celebration animation after stats reveal.
+ * celebrate — Phase 4
+ * Fires a confetti burst then injects floating voter reaction bubbles.
+ * Respects prefers-reduced-motion: when reduced, skips confetti and bubbles entirely.
  *
- * @returns {Promise<void>}
+ * @param {Object} _payload — decoded report payload (unused directly, reserved for future theming)
+ * @returns {Promise<void>} — resolves after confetti fires (bubbles continue async)
  */
-export function celebrate() { // TODO Phase 4
-  return Promise.resolve();
+export function celebrate(_payload) {
+  return new Promise((resolve) => {
+    // Respect reduced motion preference — no confetti, no bubbles
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) {
+      resolve();
+      return;
+    }
+
+    // Confetti burst — two overlapping salvos for visual volume
+    confetti({
+      particleCount: 120,
+      spread: 70,
+      origin: { x: 0.5, y: 0.55 },
+      colors: ['#FFB800', '#ffffff', '#ffd04f', '#FFE066', '#fffbe6'],
+      disableForReducedMotion: true,
+    });
+
+    // Side salvos fired 300ms later for a fuller burst
+    setTimeout(() => {
+      confetti({
+        particleCount: 60,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0, y: 0.65 },
+        colors: ['#FFB800', '#ffffff', '#ffd04f'],
+        disableForReducedMotion: true,
+      });
+      confetti({
+        particleCount: 60,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1, y: 0.65 },
+        colors: ['#FFB800', '#ffffff', '#ffd04f'],
+        disableForReducedMotion: true,
+      });
+    }, 300);
+
+    // Inject voter reaction bubbles after confetti peaks
+    setTimeout(() => {
+      _spawnVoterBubbles();
+    }, 500);
+
+    // Resolve after confetti completes — bubbles float independently in background
+    setTimeout(resolve, 800);
+  });
+}
+
+// ─── Voter Reaction Bubbles ───────────────────────────────────────────────────
+
+const BUBBLE_REACTIONS = [
+  '👍', '❤️', '🎉', '⭐', '🔥',
+  'Great message!', 'Love it!', 'Amazing!', 'Go team!',
+];
+
+/**
+ * _spawnVoterBubbles — private
+ * Injects 10 floating reaction elements into the document body.
+ * Each bubble picks a random reaction, horizontal position, and animation delay.
+ * CSS handles the rise animation via @keyframes bubble-rise.
+ * Bubbles self-remove from DOM after animation completes (animationend listener).
+ */
+function _spawnVoterBubbles() {
+  const count = 10;
+
+  for (let i = 0; i < count; i++) {
+    const delay = i * 180; // stagger: 0ms, 180ms, 360ms...
+
+    setTimeout(() => {
+      const reaction = BUBBLE_REACTIONS[Math.floor(Math.random() * BUBBLE_REACTIONS.length)];
+      const el = document.createElement('div');
+      el.className = 'voter-bubble';
+      // bubble textContent — never innerHTML (XSS prevention, project constraint)
+      el.textContent = reaction;
+
+      // Random horizontal position: 10%-90% of viewport width
+      const xPct = 10 + Math.floor(Math.random() * 80);
+      el.style.left = `${xPct}%`;
+
+      // Slight size variation for depth illusion
+      const scale = 0.85 + Math.random() * 0.3;
+      el.style.fontSize = `${scale}rem`;
+
+      document.body.appendChild(el);
+
+      // Self-remove after animation (1.8s rise + 0.2s buffer)
+      el.addEventListener('animationend', () => {
+        el.remove();
+      }, { once: true });
+    }, delay);
+  }
 }
