@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Performance: preconnect to map tile CDN to reduce DNS lookup latency -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="preconnect" href="https://basemaps.cartocdn.com" crossorigin />
+  <!-- Theme color: matches dark background, improves mobile browser chrome -->
+  <meta name="theme-color" content="#0a0a0a" />
   <title>Campaign Results</title>
   <!-- MapLibre GL CSS via CDN — required for map controls to render correctly -->
   <link href="https://cdn.jsdelivr.net/npm/maplibre-gl@5/dist/maplibre-gl.css" rel="stylesheet" />
@@ -91,6 +96,12 @@
       <div class="benchmark-comparison">Industry average: <span class="benchmark-avg">85–92%</span></div>
       <button class="benchmark-dismiss" id="benchmark-dismiss" type="button">See Full Results</button>
     </div>
+  </div>
+
+  <!-- Layer 5: Share button — revealed by main.js after celebrate() resolves -->
+  <!-- CRITICAL: body-level fixed, same pattern as all other overlay-layers -->
+  <div id="share-container" class="share-container" style="display:none">
+    <button id="share-btn" class="share-btn" type="button">Share Your Results</button>
   </div>
 
   <script type="module" src="./main.js"></script>

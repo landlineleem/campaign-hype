@@ -9,6 +9,7 @@ import { createMap, addVoterLayers } from './map.js';
 import { generateVoterData } from './data.js';
 import { playCameraSequence, runDotCascade } from './sequencer.js';
 import { revealStats, showBenchmarkPopup, celebrate } from './overlay.js';
+import { shareReport } from './share.js';
 
 const payload = decodeReport();
 
@@ -85,6 +86,18 @@ if (!payload) {
 
       // Stage 5: Confetti burst + floating voter reaction bubbles — the finale
       await celebrate(payload);
+
+      // Stage 6: Reveal share button — candidates can now forward their report
+      const shareContainer = document.getElementById('share-container');
+      if (shareContainer) {
+        shareContainer.style.display = 'flex';
+        const shareBtn = document.getElementById('share-btn');
+        if (shareBtn) {
+          shareBtn.addEventListener('click', () => {
+            shareReport(payload.candidateName, window.location.href);
+          });
+        }
+      }
 
       console.log('[main.js] Full sequence complete');
     })();
