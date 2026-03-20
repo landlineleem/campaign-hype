@@ -10,27 +10,27 @@ See: .planning/PROJECT.md (updated 2026-03-20)
 ## Current Position
 
 Phase: 1 of 4 (Foundation)
-Plan: 1 of 2 in current phase
-Status: In progress
-Last activity: 2026-03-20 — 01-01 complete: Vite scaffold, URL codec, districts registry, GitHub Actions CI/CD
+Plan: 2 of 2 in current phase
+Status: Phase complete — ready for Phase 2
+Last activity: 2026-03-20 — 01-02 complete: Admin form, history, report page candidate display
 
-Progress: [█░░░░░░░░░] 10%
+Progress: [██░░░░░░░░] 20%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 4 min
-- Total execution time: 4 min
+- Total plans completed: 2
+- Average duration: 6 min
+- Total execution time: 12 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-foundation | 1 | 4 min | 4 min |
+| 01-foundation | 2 | 12 min | 6 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (4 min)
+- Last 5 plans: 01-01 (4 min), 01-02 (8 min)
 - Trend: baseline
 
 *Updated after each plan completion*
@@ -49,6 +49,9 @@ Recent decisions affecting current work:
 - [01-01]: Query params (?) used over hash fragments (#) — hash stripped by SMS clients including VoterPing
 - [01-01]: atob/btoa + URL-safe replacement chosen over lz-string — payload ~200 chars encoded, compression unnecessary
 - [01-01]: window.location.origin used dynamically in encodeReport() — works correctly on localhost and GitHub Pages without hardcoding
+- [01-02]: admin/history.js extracted as DOM-free module so Vitest/Node can test it without DOM mocks — form.js has DOM side effects on import
+- [01-02]: window.__reportPayload assignment in report/main.js is intentional scaffolding for Phase 2 map sequencer
+- [01-02]: textContent exclusively for URL-decoded/form-submitted data — no innerHTML exceptions
 
 ### Pending Todos
 
@@ -63,5 +66,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-20
-Stopped at: Completed 01-01-PLAN.md — Vite scaffold, URL codec, districts, CI/CD
+Stopped at: Completed 01-02-PLAN.md — Admin form, history module, report page candidate display
 Resume file: None

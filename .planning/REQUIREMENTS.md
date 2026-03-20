@@ -9,10 +9,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Data & URL
 
-- [ ] **DATA-01**: Admin can input candidate name, district/location, messages sent, delivered, and failed
+- [x] **DATA-01**: Admin can input candidate name, district/location, messages sent, delivered, and failed
 - [x] **DATA-02**: Admin form generates a unique shareable URL with all campaign data encoded
-- [ ] **DATA-03**: Generated URL is copied to clipboard with one click
-- [ ] **DATA-04**: Admin can view history of all generated report links
+- [x] **DATA-03**: Generated URL is copied to clipboard with one click
+- [x] **DATA-04**: Admin can view history of all generated report links
 
 ### Map
 
@@ -39,7 +39,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [ ] **FOUN-01**: Report page renders correctly on mobile phones (primary device)
 - [ ] **FOUN-02**: Page loads in under 3 seconds on mobile connection
-- [ ] **FOUN-03**: Report displays candidate's name prominently throughout
+- [x] **FOUN-03**: Report displays candidate's name prominently throughout
 - [x] **FOUN-04**: Deployed to GitHub Pages with zero hosting cost
 
 ## v2 Requirements
@@ -79,10 +79,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DATA-01 | Phase 1 | Pending |
+| DATA-01 | Phase 1 | Complete |
 | DATA-02 | Phase 1 | Complete |
-| DATA-03 | Phase 1 | Pending |
-| DATA-04 | Phase 1 | Pending |
+| DATA-03 | Phase 1 | Complete |
+| DATA-04 | Phase 1 | Complete |
 | MAP-01 | Phase 2 | Pending |
 | MAP-02 | Phase 2 | Pending |
 | MAP-03 | Phase 2 | Pending |
@@ -97,7 +97,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CELB-04 | Phase 4 | Pending |
 | FOUN-01 | Phase 4 | Pending |
 | FOUN-02 | Phase 4 | Pending |
-| FOUN-03 | Phase 1 | Pending |
+| FOUN-03 | Phase 1 | Complete |
 | FOUN-04 | Phase 1 | Complete |
 
 **Coverage:**

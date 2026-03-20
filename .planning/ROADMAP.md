@@ -12,7 +12,7 @@ Campaign Hype is built in four phases driven by a strict dependency graph: the U
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation** - Vite scaffold, URL codec, admin form, GitHub Pages deployment
+- [x] **Phase 1: Foundation** - Vite scaffold, URL codec, admin form, GitHub Pages deployment (completed 2026-03-20)
 - [ ] **Phase 2: Map Experience** - MapLibre flyover, WebGL recovery, cascading dot animation
 - [ ] **Phase 3: Stats and Sequence** - Promise-chain sequencer, animated counters, benchmark popup
 - [ ] **Phase 4: Celebration and Polish** - Confetti, voter reactions, share button, mobile audit
@@ -90,7 +90,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/2 | Planning done | - |
+| 1. Foundation | 2/2 | Complete   | 2026-03-20 |
 | 2. Map Experience | 0/2 | Not started | - |
 | 3. Stats and Sequence | 0/2 | Not started | - |
 | 4. Celebration and Polish | 0/2 | Not started | - |
