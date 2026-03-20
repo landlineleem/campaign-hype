@@ -45,11 +45,11 @@ Plans:
   3. After the flyover completes, cascading dots animate across the district showing message delivery
   4. The map is touch-friendly and displays correctly on a mobile phone screen
   5. If iOS Safari reclaims the WebGL context, a recovery prompt appears instead of a broken map
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 02-01: MapLibre initialization, USA map, flyTo animation, WebGL context loss recovery
-- [ ] 02-02: Synthetic voter coordinate generator, cascading dot animation, mobile responsiveness
+- [ ] 02-01-PLAN.md — maplibre-gl install, full-screen map shell (HTML/CSS), data.js (synthetic voter GeoJSON), map.js (MapLibre init + WebGL recovery), main.js map init wiring
+- [ ] 02-02-PLAN.md — sequencer.js (promise-based flyTo + dot cascade), main.js async/await sequence wiring, human-verify checkpoint
 
 ### Phase 3: Stats and Sequence
 **Goal**: After the map flyover, animated stat counters roll up and an industry benchmark popup celebrates the candidate's deliverability rate — all in a controlled choreographed sequence
