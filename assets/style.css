@@ -1,0 +1,13 @@
+/* Campaign Hype — Global Styles */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --color-bg: #0a0a1a;
+  --color-surface: #12122a;
+  --color-accent: #4f9eff;
+  --color-text: #e8eaf6;
+  --color-text-muted: #7986cb;
+  --color-success: #69f0ae;
+  --color-error: #ff5252;
+  --font-main: system-ui, -apple-system, sans-serif;
+}
+body { background: var(--color-bg); color: var(--color-text); font-family: var(--font-main); }

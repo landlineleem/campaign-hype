@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Campaign Results</title>
+  <link rel="stylesheet" href="/campaign-hype/assets/style.css" />
+  <link rel="stylesheet" href="/campaign-hype/assets/report.css" />
+</head>
+<body>
+  <main id="report-root">
+    <div id="error-state" style="display:none">
+      <h1>Invalid report link</h1>
+      <p>This link appears to be malformed or expired. Contact your campaign manager.</p>
+    </div>
+    <div id="report-content" style="display:none">
+      <h1 id="candidate-name"></h1>
+    </div>
+  </main>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

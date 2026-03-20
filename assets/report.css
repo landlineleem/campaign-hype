@@ -1,0 +1,3 @@
+/* Report page styles — expanded in Phase 2 */
+#report-root { min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+#candidate-name { font-size: 2.5rem; text-align: center; }
