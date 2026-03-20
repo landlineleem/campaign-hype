@@ -9,8 +9,75 @@
 </head>
 <body>
   <main id="admin-root">
-    <h1>Campaign Hype Admin</h1>
-    <p>Form coming in Plan 02.</p>
+    <header class="admin-header">
+      <h1>Campaign Hype</h1>
+      <p class="admin-subtitle">Generate shareable report links for your candidates</p>
+    </header>
+
+    <form id="report-form" novalidate>
+      <div class="field-group">
+        <label for="candidate-name-input">Candidate Name</label>
+        <input
+          type="text"
+          id="candidate-name-input"
+          name="candidateName"
+          placeholder="e.g. Jane Smith"
+          maxlength="50"
+          autocomplete="off"
+          required
+        />
+        <span class="field-error" id="name-error"></span>
+      </div>
+
+      <div class="field-group">
+        <label for="district-select">District</label>
+        <select id="district-select" name="districtKey" required>
+          <option value="">Select a district...</option>
+        </select>
+        <span class="field-error" id="district-error"></span>
+      </div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label for="sent-input">Messages Sent</label>
+          <input type="number" id="sent-input" name="sent" min="1" max="10000000" placeholder="0" required />
+          <span class="field-error" id="sent-error"></span>
+        </div>
+        <div class="field-group">
+          <label for="delivered-input">Delivered</label>
+          <input type="number" id="delivered-input" name="delivered" min="0" max="10000000" placeholder="0" required />
+          <span class="field-error" id="delivered-error"></span>
+        </div>
+        <div class="field-group">
+          <label for="failed-input">Failed</label>
+          <input type="number" id="failed-input" name="failed" min="0" max="10000000" placeholder="0" required />
+          <span class="field-error" id="failed-error"></span>
+        </div>
+      </div>
+
+      <div class="totals-check" id="totals-check" style="display:none">
+        <span id="totals-warning"></span>
+      </div>
+
+      <div class="url-preview" id="url-preview" style="display:none">
+        <label>Generated URL</label>
+        <div class="url-display">
+          <span id="url-text" class="url-text"></span>
+          <span class="url-length" id="url-length"></span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" id="generate-btn">Generate Report Link</button>
+        <button type="button" id="copy-btn" style="display:none">Copy Link</button>
+        <span class="copy-feedback" id="copy-feedback" aria-live="polite"></span>
+      </div>
+    </form>
+
+    <section class="history-section" id="history-section" style="display:none">
+      <h2>Previously Generated Links</h2>
+      <ul id="history-list" class="history-list"></ul>
+    </section>
   </main>
   <script type="module" src="./form.js"></script>
 </body>
