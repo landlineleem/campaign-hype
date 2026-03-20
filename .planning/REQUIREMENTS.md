@@ -33,12 +33,12 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **CELB-01**: Confetti burst fires after stats reveal completes
 - [x] **CELB-02**: Floating voter reaction bubbles (thumbs up, hearts, "Great message!") rise from bottom of screen
 - [x] **CELB-03**: All elements revealed in choreographed sequence (map → dots → stats → benchmark → confetti → reactions)
-- [ ] **CELB-04**: Share button lets candidates forward report via Web Share API with clipboard fallback
+- [x] **CELB-04**: Share button lets candidates forward report via Web Share API with clipboard fallback
 
 ### Foundation
 
-- [ ] **FOUN-01**: Report page renders correctly on mobile phones (primary device)
-- [ ] **FOUN-02**: Page loads in under 3 seconds on mobile connection
+- [x] **FOUN-01**: Report page renders correctly on mobile phones (primary device)
+- [x] **FOUN-02**: Page loads in under 3 seconds on mobile connection
 - [x] **FOUN-03**: Report displays candidate's name prominently throughout
 - [x] **FOUN-04**: Deployed to GitHub Pages with zero hosting cost
 
@@ -94,9 +94,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CELB-01 | Phase 4 | Complete |
 | CELB-02 | Phase 4 | Complete |
 | CELB-03 | Phase 3 | Complete |
-| CELB-04 | Phase 4 | Pending |
-| FOUN-01 | Phase 4 | Pending |
-| FOUN-02 | Phase 4 | Pending |
+| CELB-04 | Phase 4 | Complete |
+| FOUN-01 | Phase 4 | Complete |
+| FOUN-02 | Phase 4 | Complete |
 | FOUN-03 | Phase 1 | Complete |
 | FOUN-04 | Phase 1 | Complete |
 
