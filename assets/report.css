@@ -1,3 +1,48 @@
-/* Report page styles — expanded in Phase 2 */
-#report-root { min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-#candidate-name { font-size: 2.5rem; text-align: center; }
+/* Report page styles — Phase 1 placeholder layout */
+/* Phase 2 will overlay a full-screen MapLibre map behind this */
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+#report-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+#error-state {
+  max-width: 480px;
+}
+#error-state h1 {
+  color: var(--color-error);
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+#error-state p {
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+#report-content {
+  max-width: 640px;
+}
+
+#candidate-name {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--color-text);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+.report-subtitle {
+  color: var(--color-text-muted);
+  font-size: 1.1rem;
+}
