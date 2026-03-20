@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: Completed 02-01-PLAN.md — MapLibre map foundation, voter data generator, WebGL recovery
-last_updated: "2026-03-20T21:14:18.126Z"
+stopped_at: Completed 02-02-PLAN.md — sequencer flyTo + dot cascade wired into main.js
+last_updated: "2026-03-20T21:19:01.714Z"
 last_activity: "2026-03-20 — 01-02 complete: Admin form, history, report page candidate display"
 progress:
   total_phases: 4
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 4
-  completed_plans: 3
+  completed_plans: 4
   percent: 20
 ---
 
@@ -51,6 +51,7 @@ Progress: [██░░░░░░░░] 20%
 
 *Updated after each plan completion*
 | Phase 02-map-experience P01 | 4 | 3 tasks | 6 files |
+| Phase 02-map-experience P02 | 3 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -72,6 +73,8 @@ Recent decisions affecting current work:
 - [Phase 02-map-experience]: preserveDrawingBuffer:false kept explicit — prevents iOS Safari WebGL context loss doubling
 - [Phase 02-map-experience]: Overlay divs at body level (not inside #map-container) to escape MapLibre CSS stacking context
 - [Phase 02-map-experience]: 5000-point voter data cap — visual quality plateaus above this, mobile GPU cost keeps climbing
+- [Phase 02-map-experience]: setTimeout for fixed visual beats (USA pause, post-landing breath) is intentional — only sequencing a fixed duration, not an async operation
+- [Phase 02-map-experience]: Completion pulse runs indefinitely in rAF background — no explicit cancel, page unload handles cleanup
 
 ### Pending Todos
 
@@ -85,6 +88,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-20T21:14:18.123Z
-Stopped at: Completed 02-01-PLAN.md — MapLibre map foundation, voter data generator, WebGL recovery
+Last session: 2026-03-20T21:18:49.209Z
+Stopped at: Completed 02-02-PLAN.md — sequencer flyTo + dot cascade wired into main.js
 Resume file: None
