@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-03-20)
 ## Current Position
 
 Phase: 1 of 4 (Foundation)
-Plan: 0 of 2 in current phase
-Status: Ready to plan
-Last activity: 2026-03-20 — Roadmap created, phases derived from requirements
+Plan: 1 of 2 in current phase
+Status: In progress
+Last activity: 2026-03-20 — 01-01 complete: Vite scaffold, URL codec, districts registry, GitHub Actions CI/CD
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [█░░░░░░░░░] 10%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 0
-- Average duration: —
-- Total execution time: —
+- Total plans completed: 1
+- Average duration: 4 min
+- Total execution time: 4 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 01-foundation | 1 | 4 min | 4 min |
 
 **Recent Trend:**
-- Last 5 plans: —
-- Trend: —
+- Last 5 plans: 01-01 (4 min)
+- Trend: baseline
 
 *Updated after each plan completion*
 
@@ -45,6 +45,10 @@ Recent decisions affecting current work:
 - [Roadmap]: URL codec must be built and stable before either admin or report page can be completed — changing the schema later breaks both sides
 - [Roadmap]: Synthetic voter coordinate scatter (not real GeoJSON district polygons) for v1 — avoids GeoJSON file-size pitfall, revisit for v2
 - [Roadmap]: FOUN-01/FOUN-02 (mobile, performance) deferred to Phase 4 where the complete experience exists to audit
+- [01-01]: URL codec schema v1 locked with compact keys (n, k, s, dv, f, ts) — changing key names after Plan 02 is a two-file breaking change
+- [01-01]: Query params (?) used over hash fragments (#) — hash stripped by SMS clients including VoterPing
+- [01-01]: atob/btoa + URL-safe replacement chosen over lz-string — payload ~200 chars encoded, compression unnecessary
+- [01-01]: window.location.origin used dynamically in encodeReport() — works correctly on localhost and GitHub Pages without hardcoding
 
 ### Pending Todos
 
@@ -59,5 +63,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-20
-Stopped at: Roadmap created — ready to plan Phase 1
+Stopped at: Completed 01-01-PLAN.md — Vite scaffold, URL codec, districts, CI/CD
 Resume file: None
