@@ -53,7 +53,7 @@ Plans:
 
 ### Phase 3: Stats and Sequence
 **Goal**: After the map flyover, animated stat counters roll up and an industry benchmark popup celebrates the candidate's deliverability rate — all in a controlled choreographed sequence
-**Depends on**: Phase 2
+**Depends on**: Phase 3
 **Requirements**: STAT-01, STAT-02, STAT-03, STAT-04, CELB-03
 **Success Criteria** (what must be TRUE):
   1. Stat counters (sent, delivered, failed, delivery %) roll up from 0 with satisfying easing after the map sequence ends
@@ -77,11 +77,11 @@ Plans:
   3. A share button lets candidates forward their report via the Web Share API or clipboard fallback
   4. The full experience loads and plays correctly on a mobile phone with no broken layout
   5. The report page loads in under 3 seconds on a mobile connection
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 04-01: canvas-confetti burst, floating voter reaction bubbles, reduced motion compliance
-- [ ] 04-02: Share button (Web Share API + clipboard fallback), mobile responsiveness audit, performance pass
+- [ ] 04-01-PLAN.md — canvas-confetti burst, floating voter reaction bubbles, reduced motion compliance
+- [ ] 04-02-PLAN.md — Share button (Web Share API + clipboard fallback), mobile responsiveness audit, performance pass
 
 ## Progress
 
