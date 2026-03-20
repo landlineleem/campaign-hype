@@ -4,20 +4,48 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Campaign Results</title>
+  <!-- MapLibre GL CSS via CDN — required for map controls to render correctly -->
+  <link href="https://cdn.jsdelivr.net/npm/maplibre-gl@5/dist/maplibre-gl.css" rel="stylesheet" />
   <link rel="stylesheet" href="/campaign-hype/assets/style.css" />
   <link rel="stylesheet" href="/campaign-hype/assets/report.css" />
 </head>
 <body>
-  <main id="report-root">
-    <div id="error-state" style="display:none">
-      <h1>Invalid report link</h1>
-      <p>This link appears to be malformed or expired. Contact your campaign manager.</p>
+  <!-- Layer 0: Full-viewport map canvas (sits behind all overlays) -->
+  <div id="map-container"></div>
+
+  <!-- Layer 1: Loading overlay — shown immediately, hidden after map 'load' fires -->
+  <div id="loading-overlay" class="overlay-layer">
+    <div class="loading-content">
+      <div class="loading-spinner"></div>
+      <p class="loading-text">Preparing your results...</p>
     </div>
-    <div id="report-content" style="display:none">
-      <h1 id="candidate-name"></h1>
-      <p class="report-subtitle">Your Campaign Results</p>
+  </div>
+
+  <!-- Layer 2: WebGL recovery — hidden until iOS Safari kills the WebGL context -->
+  <!-- CRITICAL: mounted at body level, NOT inside #map-container.
+       MapLibre's internal transform creates a CSS stacking context that would
+       trap z-index inside the map container hierarchy. Fixed+body-level = always on top. -->
+  <div id="webgl-recovery" class="overlay-layer" style="display:none">
+    <div class="recovery-content">
+      <p class="recovery-text">Map interrupted</p>
+      <button id="reload-btn" class="recovery-btn">Tap to reload</button>
     </div>
-  </main>
+  </div>
+
+  <!-- Layer 3: Error state — shown when URL has no valid ?d= param -->
+  <div id="error-state" class="overlay-layer" style="display:none">
+    <div class="error-content">
+      <h1 class="error-heading">Invalid report link</h1>
+      <p class="error-body">This link appears to be malformed or expired. Contact your campaign manager.</p>
+    </div>
+  </div>
+
+  <!-- Layer 4: Report content — candidate name, revealed by sequencer in Plan 02 -->
+  <div id="report-content" class="overlay-layer" style="display:none">
+    <h1 id="candidate-name" class="candidate-name"></h1>
+    <p class="report-subtitle">Your Campaign Results</p>
+  </div>
+
   <script type="module" src="./main.js"></script>
 </body>
 </html>
