@@ -29,11 +29,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. The generated URL copies to clipboard with one click
   4. Admin can view all previously generated report links without leaving the page
   5. The site is live on GitHub Pages and the report page displays the candidate's name from the URL
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 01-01: Vite scaffold, URL codec module, districts registry, GitHub Pages CI/CD
-- [ ] 01-02: Admin form — inputs, validation, URL generation, clipboard copy, link history
+- [ ] 01-01-PLAN.md — Vite scaffold, URL codec module, districts registry, GitHub Pages CI/CD
+- [ ] 01-02-PLAN.md — Admin form (validation, URL generation, clipboard, link history) + report page name display
 
 ### Phase 2: Map Experience
 **Goal**: Opening a report URL shows a cinematic 3D map that flies from the USA into the candidate's district and animates message delivery across it
@@ -90,7 +90,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/2 | Not started | - |
+| 1. Foundation | 0/2 | Planning done | - |
 | 2. Map Experience | 0/2 | Not started | - |
 | 3. Stats and Sequence | 0/2 | Not started | - |
 | 4. Celebration and Polish | 0/2 | Not started | - |
