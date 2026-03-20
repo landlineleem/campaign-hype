@@ -400,3 +400,75 @@ body {
     border-radius: 16px;
   }
 }
+
+/* ── Share Button (Phase 4) ── */
+.share-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  padding: 0 16px 5vh;
+  pointer-events: none;   /* container pass-through; button has pointer-events:all */
+  background: linear-gradient(to top, rgba(10,10,10,0.7) 0%, rgba(10,10,10,0) 100%);
+}
+
+.share-btn {
+  background: #FFB800;
+  color: #0a0a0a;
+  border: none;
+  border-radius: 28px;
+  padding: 14px 36px;
+  min-height: 44px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  pointer-events: all;
+  transition: background 0.15s ease, transform 0.1s ease;
+  box-shadow: 0 4px 24px rgba(255, 184, 0, 0.35);
+}
+
+.share-btn:hover,
+.share-btn:focus {
+  background: #ffd04f;
+  outline: 2px solid #FFB800;
+  outline-offset: 2px;
+}
+
+.share-btn:active {
+  transform: scale(0.97);
+}
+
+/* Copied! state — visual confirmation */
+.share-btn--copied {
+  background: rgba(255, 184, 0, 0.7);
+}
+
+/* Touch target enforcement on benchmark dismiss */
+.benchmark-dismiss {
+  min-height: 44px;
+}
+
+@media (max-width: 480px) {
+  .share-btn {
+    width: 100%;
+    max-width: 320px;
+  }
+  .share-container {
+    padding-bottom: 4vh;
+  }
+}
+
+/* Reduced motion: disable share button entrance transition */
+@media (prefers-reduced-motion: reduce) {
+  .share-btn {
+    transition: none;
+  }
+  /* Also disable stat-shake animation for stat cards */
+  .stat-done .stat-value {
+    animation: none;
+  }
+}
