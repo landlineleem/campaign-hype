@@ -14,8 +14,6 @@
 
 import confetti from 'canvas-confetti';
 
-// Gauge math: r=38, circumference = 2 * PI * 38
-const GAUGE_CIRCUMFERENCE = 2 * Math.PI * 38; // 238.76
 
 /**
  * animateCounter — private
@@ -53,44 +51,6 @@ function animateCounter(el, target, duration, onDone, format) {
     } else {
       el.textContent = format(target);
       onDone();
-    }
-  }
-
-  requestAnimationFrame(frame);
-}
-
-/**
- * animateGauge — private
- * Animates the SVG circular gauge (#pct-gauge-fill) from empty (dashoffset=circumference)
- * to the filled state corresponding to pct using ease-out cubic.
- *
- * @param {number} pct      — deliverability percentage, 0-100
- * @param {number} duration — animation duration in ms
- */
-function animateGauge(pct, duration) {
-  const fillEl = document.getElementById('pct-gauge-fill');
-  if (!fillEl) {
-    console.warn('[overlay.js] animateGauge: #pct-gauge-fill not found, skipping');
-    return;
-  }
-
-  const targetOffset = GAUGE_CIRCUMFERENCE * (1 - pct / 100);
-  const startTime = performance.now();
-
-  function frame(now) {
-    const elapsed = now - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-
-    // Ease-out cubic
-    const eased = 1 - Math.pow(1 - progress, 3);
-    const currentOffset = GAUGE_CIRCUMFERENCE - eased * (GAUGE_CIRCUMFERENCE - targetOffset);
-
-    fillEl.style.strokeDashoffset = currentOffset;
-
-    if (progress < 1) {
-      requestAnimationFrame(frame);
-    } else {
-      fillEl.style.strokeDashoffset = targetOffset;
     }
   }
 
@@ -165,8 +125,6 @@ export function revealStats(payload) {
       (v) => v.toFixed(1) + '%'
     );
 
-    // Gauge animates alongside the pct counter
-    animateGauge(payload.deliverabilityPct, 1800);
   });
 }
 
