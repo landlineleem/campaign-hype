@@ -10,6 +10,7 @@ import { generateVoterData } from './data.js';
 import { playCameraSequence, runDotCascade } from './sequencer.js';
 import { revealStats, showBenchmarkPopup, celebrate } from './overlay.js';
 import { shareReport } from './share.js';
+import { playWhoosh, playPing, playRisingTone, playChime, playCelebration } from './sound.js';
 
 const payload = decodeReport();
 
@@ -60,6 +61,7 @@ if (!payload) {
     //   "each stage returns a Promise that resolves when it is complete, triggering the next stage"
     (async () => {
       // Stage 1: Camera flies from USA overview to candidate's district
+      playWhoosh();
       await playCameraSequence(map, district);
 
       // Stage 2: Cascading gold dots animate across the district
@@ -72,19 +74,23 @@ if (!payload) {
             console.log(`[main.js] Cascade complete: ${delivered}/${total} delivered`);
           }
         },
-        onBatchPing: (_progress) => {
-          // Phase 3: overlay pulse effects will hook here
+        onBatchPing: (progress) => {
+          // Play ping every few batches to avoid overwhelming audio
+          if (Math.random() < 0.15) playPing(progress);
         },
       });
 
       // Stage 3: Stat counters roll up from 0 — all four in parallel, resolve when last finishes
+      playRisingTone();
       await revealStats(payload);
 
       // Stage 4: Industry benchmark popup — celebrates deliverability vs 85-92% industry average
       // Resolves when user dismisses (tap/click) or automatically after overlay click
+      playChime();
       await showBenchmarkPopup(payload);
 
       // Stage 5: Confetti burst + floating voter reaction bubbles — the finale
+      playCelebration();
       await celebrate(payload);
 
       // Stage 6: Reveal share button — candidates can now forward their report
