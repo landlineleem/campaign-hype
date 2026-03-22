@@ -10,6 +10,7 @@
     "test": "vitest run --reporter=verbose"
   },
   "devDependencies": {
+    "shapefile": "^0.6.6",
     "vite": "^8.0.1",
     "vitest": "^3.0.0"
   },

@@ -1,6 +1,8 @@
-// shared/districts.js — District registry ported from voterping-viz
-// Source: /home/vpliam/voterping-viz/src/districts.js
-// Extended with displayName field for admin dropdown use
+// shared/districts.js — District registry and geo-to-district conversion
+// Legacy hardcoded districts kept for v1 URL backward compatibility.
+// New v2 districts use buildDistrictFromGeo() to construct a full district object from center + bounds.
+
+// --- Legacy districts (v1 URLs) ---
 
 export const DISTRICTS = {
   'raleigh-nc': {
@@ -74,4 +76,53 @@ export function getDistrictKeys() {
 
 export function getDistrict(key) {
   return DISTRICTS[key] || null;
+}
+
+// --- v2: Build district object from geo data embedded in URL ---
+
+/**
+ * Construct a full district object from center + bounds (from v2 URL payload).
+ * Auto-generates clusters spread across the bounding box and computes flyTo params.
+ */
+export function buildDistrictFromGeo(center, bounds, name) {
+  const [sw, ne] = bounds;
+  const width = ne[0] - sw[0];
+  const height = ne[1] - sw[1];
+  const maxSpan = Math.max(width, height);
+  const spread = maxSpan * 0.12;
+
+  return {
+    displayName: name || 'District',
+    name: name || 'District',
+    center,
+    bounds,
+    flyToZoom: computeZoomFromBounds(bounds),
+    pitch: 45,
+    bearing: -15,
+    clusters: [
+      { center, weight: 0.22, spread: spread * 1.2 },
+      { center: [center[0] - width * 0.25, center[1] + height * 0.2], weight: 0.14, spread },
+      { center: [center[0] + width * 0.25, center[1] + height * 0.2], weight: 0.14, spread },
+      { center: [center[0] - width * 0.2, center[1] - height * 0.2], weight: 0.12, spread: spread * 0.9 },
+      { center: [center[0] + width * 0.2, center[1] - height * 0.15], weight: 0.12, spread: spread * 0.9 },
+      { center: [center[0] + width * 0.1, center[1] + height * 0.05], weight: 0.10, spread: spread * 0.8 },
+      { center: [center[0] - width * 0.1, center[1] - height * 0.05], weight: 0.10, spread: spread * 0.8 },
+      { center: [center[0] - width * 0.3, center[1]], weight: 0.06, spread: spread * 0.7 },
+    ],
+  };
+}
+
+function computeZoomFromBounds(bounds) {
+  const [sw, ne] = bounds;
+  const lngSpan = Math.abs(ne[0] - sw[0]);
+  const latSpan = Math.abs(ne[1] - sw[1]);
+  const maxSpan = Math.max(lngSpan, latSpan);
+  if (maxSpan > 5) return 6;
+  if (maxSpan > 3) return 7;
+  if (maxSpan > 2) return 8;
+  if (maxSpan > 1) return 9;
+  if (maxSpan > 0.5) return 10;
+  if (maxSpan > 0.2) return 11;
+  if (maxSpan > 0.1) return 12;
+  return 13;
 }

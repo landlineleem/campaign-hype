@@ -29,9 +29,26 @@
         <span class="field-error" id="name-error"></span>
       </div>
 
+      <!-- Cascading district selector: State → Type → District -->
+      <div class="field-group">
+        <label for="state-select">State</label>
+        <select id="state-select" required>
+          <option value="">Select a state...</option>
+        </select>
+        <span class="field-error" id="state-error"></span>
+      </div>
+
+      <div class="field-group">
+        <label for="district-type-select">District Type</label>
+        <select id="district-type-select" disabled required>
+          <option value="">Select a district type...</option>
+        </select>
+        <span class="field-error" id="district-type-error"></span>
+      </div>
+
       <div class="field-group">
         <label for="district-select">District</label>
-        <select id="district-select" name="districtKey" required>
+        <select id="district-select" disabled required>
           <option value="">Select a district...</option>
         </select>
         <span class="field-error" id="district-error"></span>
