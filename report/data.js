@@ -29,15 +29,15 @@ function sortRadial(points, center) {
  * Generate synthetic voter coordinate GeoJSON for a district.
  *
  * @param {object} district - District object from shared/districts.js (getDistrict)
- * @param {number} count    - Number of points to generate. Capped at 5000 for mobile perf.
+ * @param {number} count    - Number of points to generate. Capped at 20000 for mobile perf.
  *                           Pass payload.delivered as the count — each dot = one delivered message.
  * @returns {object}        - GeoJSON FeatureCollection; each feature has { properties: { order: N } }
  *                           where N is the radial sort index used by the animation filter.
  */
 export function generateVoterData(district, count) {
-  // Cap at 5000 — above this, visual impact plateaus but mobile GPU cost keeps climbing.
-  // (pitfall research: "Dot cascade performance: > 50,000 synthetic points on mobile — cap at 5,000–10,000")
-  const targetCount = Math.min(count, 5000);
+  // Cap at 20000 — keeps visual distinction between small and large campaigns
+  // while staying within mobile GPU budget.
+  const targetCount = Math.min(count, 20000);
   const { clusters, center } = district;
 
   // Compute total cluster weight for normalization

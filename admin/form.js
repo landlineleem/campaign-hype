@@ -1,6 +1,6 @@
 // admin/form.js — admin form: cascading district selector, validation, URL generation, clipboard, history
 import { encodeReport } from '../shared/url-codec.js';
-import { addToHistory, getHistory } from './history.js';
+import { addToHistory, getHistory, removeFromHistory } from './history.js';
 
 // --- District type labels ---
 const TYPE_LABELS = {
@@ -379,10 +379,21 @@ function renderHistory() {
       urlSpan.className = 'report-item-url';
       urlSpan.textContent = entry.url; // textContent — safe
 
+      const deleteBtn = document.createElement('button');
+      deleteBtn.className = 'report-item-delete';
+      deleteBtn.textContent = 'Delete';
+      deleteBtn.type = 'button';
+      deleteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        removeFromHistory(entry.generatedAt);
+        renderHistory();
+      });
+
       li.appendChild(nameSpan);
       li.appendChild(districtSpan);
       li.appendChild(dateSpan);
       li.appendChild(copyBtn);
+      li.appendChild(deleteBtn);
       li.appendChild(urlSpan);
       list.appendChild(li);
     }

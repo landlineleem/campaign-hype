@@ -16,14 +16,16 @@ let _cascadeState = null;
 /**
  * Compute batch size from total point count.
  * Larger batches = shorter total animation time.
- * Target: ~8-12 seconds for the full cascade at any point count (up to 5000 cap).
+ * Target: ~8-12 seconds for the full cascade at any point count (up to 20000 cap).
  */
 function computeBatchSize(totalPoints) {
   if (totalPoints <= 500)  return 5;
   if (totalPoints <= 1000) return 10;
   if (totalPoints <= 2000) return 20;
   if (totalPoints <= 5000) return 40;
-  return 60;  // above cap — shouldn't occur given 5000 cap in data.js
+  if (totalPoints <= 10000) return 80;
+  if (totalPoints <= 20000) return 160;
+  return 200;
 }
 
 // ─── Camera Fly ───────────────────────────────────────────────────────────────

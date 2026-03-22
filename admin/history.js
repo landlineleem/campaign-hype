@@ -16,3 +16,8 @@ export function getHistory() {
     return [];
   }
 }
+
+export function removeFromHistory(generatedAt) {
+  const history = getHistory().filter(e => e.generatedAt !== generatedAt);
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+}
