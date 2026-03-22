@@ -244,6 +244,14 @@ function extractState(entry) {
 
 let expandedState = null; // currently expanded state abbreviation
 
+// Click anywhere outside a state bubble to collapse the reports panel
+document.addEventListener('click', (e) => {
+  if (!expandedState) return;
+  if (e.target.closest('.state-bubble') || e.target.closest('.state-reports')) return;
+  expandedState = null;
+  renderHistory();
+});
+
 function renderHistory() {
   const history = getHistory();
   const section = document.getElementById('history-section');
