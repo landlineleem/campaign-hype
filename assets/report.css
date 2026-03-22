@@ -187,7 +187,7 @@ body {
   pointer-events: none;
   align-items: flex-end;
   justify-content: center;
-  padding-bottom: 6vh;
+  padding-bottom: 14vh;
 }
 
 .stats-grid {
@@ -247,7 +247,7 @@ body {
     gap: 8px;
   }
   .stats-panel-layer {
-    padding-bottom: 3vh;
+    padding-bottom: 12vh;
   }
 }
 
