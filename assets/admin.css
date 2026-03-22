@@ -1,6 +1,6 @@
 /* Admin page styles */
 #admin-root {
-  max-width: 680px;
+  max-width: 780px;
   margin: 2rem auto;
   padding: 1.5rem;
 }
@@ -71,26 +71,143 @@ button:hover { opacity: 0.85; }
 
 .copy-feedback { color: var(--color-success); font-size: 0.9rem; }
 
-/* History section */
+/* History section — state grid */
 .history-section { margin-top: 2.5rem; }
 .history-section h2 { font-size: 1.1rem; color: var(--color-text-muted); margin-bottom: 1rem; }
-.history-list { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
 
-.history-item {
+/* State grid — 4 columns of bubbles */
+.state-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+@media (max-width: 600px) { .state-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 360px) { .state-grid { grid-template-columns: 1fr; } }
+
+.state-bubble {
+  position: relative;
+  background: var(--color-surface);
+  border: 1px solid #2a2a4a;
+  border-radius: 12px;
+  padding: 0.75rem 0.5rem 0.6rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  user-select: none;
+}
+.state-bubble:hover {
+  border-color: var(--color-accent);
+  background: #1a1a3a;
+  transform: translateY(-1px);
+}
+.state-bubble.active {
+  border-color: var(--color-accent);
+  background: #1a1a3a;
+}
+
+.state-bubble-svg {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+.state-bubble-svg path {
+  fill: var(--color-text-muted);
+  opacity: 0.5;
+  transition: fill 0.15s, opacity 0.15s;
+}
+.state-bubble:hover .state-bubble-svg path,
+.state-bubble.active .state-bubble-svg path {
+  fill: var(--color-accent);
+  opacity: 0.8;
+}
+
+.state-bubble-name {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* Notification badge */
+.state-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 20px;
+  height: 20px;
+  background: var(--color-error);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+
+/* Empty state */
+.state-grid-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  padding: 2rem 0;
+}
+
+/* Expanded state report list */
+.state-reports {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+.state-reports-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+.state-reports-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-accent);
+}
+.state-reports-close {
+  background: none;
+  border: 1px solid #2a2a4a;
+  border-radius: 4px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: 0.8rem;
+  padding: 0.2rem 0.5rem;
+}
+.state-reports-close:hover { border-color: var(--color-text-muted); }
+
+.state-reports-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.report-item {
   background: var(--color-surface);
   border: 1px solid #2a2a4a;
   border-radius: 8px;
-  display: grid;
-  grid-template-columns: auto auto 1fr auto;
-  grid-template-rows: auto auto;
-  gap: 0.25rem 1rem;
   padding: 0.75rem 1rem;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  gap: 0.4rem 1rem;
 }
-.history-name { font-weight: 600; color: var(--color-text); }
-.history-district { font-size: 0.85rem; color: var(--color-text-muted); }
-.history-date { font-size: 0.8rem; color: var(--color-text-muted); }
-.history-copy-btn {
+.report-item-name { font-weight: 600; color: var(--color-text); }
+.report-item-district { font-size: 0.85rem; color: var(--color-text-muted); }
+.report-item-date { font-size: 0.8rem; color: var(--color-text-muted); margin-left: auto; }
+.report-item-copy {
   background: none;
   border: 1px solid var(--color-accent);
   border-radius: 4px;
@@ -99,9 +216,9 @@ button:hover { opacity: 0.85; }
   font-size: 0.8rem;
   padding: 0.25rem 0.6rem;
 }
-.history-copy-btn:hover { background: rgba(79, 158, 255, 0.1); }
-.history-url {
-  grid-column: 1 / -1;
+.report-item-copy:hover { background: rgba(79, 158, 255, 0.1); }
+.report-item-url {
+  width: 100%;
   font-family: monospace;
   font-size: 0.78rem;
   color: var(--color-text-muted);

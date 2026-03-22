@@ -10,13 +10,38 @@ const TYPE_LABELS = {
   county: 'County',
 };
 
+// --- State full names for grid display ---
+const STATE_NAMES = {
+  'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas', 'CA': 'California',
+  'CO': 'Colorado', 'CT': 'Connecticut', 'DE': 'Delaware', 'DC': 'D.C.', 'FL': 'Florida',
+  'GA': 'Georgia', 'HI': 'Hawaii', 'ID': 'Idaho', 'IL': 'Illinois', 'IN': 'Indiana',
+  'IA': 'Iowa', 'KS': 'Kansas', 'KY': 'Kentucky', 'LA': 'Louisiana', 'ME': 'Maine',
+  'MD': 'Maryland', 'MA': 'Massachusetts', 'MI': 'Michigan', 'MN': 'Minnesota', 'MS': 'Mississippi',
+  'MO': 'Missouri', 'MT': 'Montana', 'NE': 'Nebraska', 'NV': 'Nevada', 'NH': 'New Hampshire',
+  'NJ': 'New Jersey', 'NM': 'New Mexico', 'NY': 'New York', 'NC': 'North Carolina', 'ND': 'North Dakota',
+  'OH': 'Ohio', 'OK': 'Oklahoma', 'OR': 'Oregon', 'PA': 'Pennsylvania', 'RI': 'Rhode Island',
+  'SC': 'South Carolina', 'SD': 'South Dakota', 'TN': 'Tennessee', 'TX': 'Texas', 'UT': 'Utah',
+  'VT': 'Vermont', 'VA': 'Virginia', 'WA': 'Washington', 'WV': 'West Virginia', 'WI': 'Wisconsin',
+  'WY': 'Wyoming', 'AS': 'American Samoa', 'GU': 'Guam', 'MP': 'N. Mariana Islands',
+  'PR': 'Puerto Rico', 'VI': 'U.S. Virgin Islands',
+};
+
+// Sorted state abbreviations (50 states + DC first, then territories)
+const MAIN_STATES = [
+  'AL','AK','AZ','AR','CA','CO','CT','DE','DC','FL','GA','HI','ID','IL','IN',
+  'IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH',
+  'NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT',
+  'VT','VA','WA','WV','WI','WY',
+];
+
 // --- State dropdown population (from _index.json) ---
 const stateSelect = document.getElementById('state-select');
 const typeSelect = document.getElementById('district-type-select');
 const districtSelect = document.getElementById('district-select');
 
-let currentStateData = null; // loaded state JSON
-let selectedDistrict = null; // { name, center, bounds }
+let currentStateData = null;
+let selectedDistrict = null;
+let stateOutlines = null; // loaded SVG paths
 
 // Load state index and populate state dropdown
 async function loadStateIndex() {
@@ -34,7 +59,23 @@ async function loadStateIndex() {
     console.error('Failed to load state index:', err);
   }
 }
-loadStateIndex();
+
+// Load state SVG outlines
+async function loadStateOutlines() {
+  try {
+    const base = import.meta.env.BASE_URL || '/campaign-hype/';
+    const res = await fetch(`${base}state-outlines.json`);
+    stateOutlines = await res.json();
+  } catch (err) {
+    console.error('Failed to load state outlines:', err);
+    stateOutlines = {};
+  }
+}
+
+// Initialize both in parallel
+Promise.all([loadStateIndex(), loadStateOutlines()]).then(() => {
+  renderHistory();
+});
 
 // --- Cascading dropdown handlers ---
 
@@ -56,7 +97,6 @@ stateSelect.addEventListener('change', async () => {
     const res = await fetch(`${base}district-data/${stateAbbr}.json`);
     currentStateData = await res.json();
 
-    // Populate type dropdown with available types for this state
     for (const [type, districts] of Object.entries(currentStateData.districts)) {
       if (districts.length === 0) continue;
       const option = document.createElement('option');
@@ -101,9 +141,9 @@ districtSelect.addEventListener('change', () => {
   }
   const d = currentStateData.districts[type][parseInt(idx, 10)];
   if (d) {
-    // Build a display name like "Wake County, NC" or "Congressional District 1, NC"
     selectedDistrict = {
       name: `${d.name}, ${currentStateData.state}`,
+      state: currentStateData.state,
       center: d.center,
       bounds: d.bounds,
     };
@@ -165,7 +205,6 @@ function checkTotals(sent, delivered, failed) {
   }
 }
 
-// Real-time totals check
 ['sent-input', 'delivered-input', 'failed-input'].forEach(id => {
   document.getElementById(id).addEventListener('input', () => {
     const sent = document.getElementById('sent-input').value;
@@ -191,11 +230,25 @@ async function copyToClipboard(text) {
   }
 }
 
-// — History rendering —
+// — Extract state abbreviation from districtName like "Wake County, NC" ---
+function extractState(entry) {
+  if (entry.state) return entry.state;
+  if (entry.districtName) {
+    const parts = entry.districtName.split(', ');
+    if (parts.length >= 2) return parts[parts.length - 1].trim();
+  }
+  return 'Other';
+}
+
+// — State grid history rendering —
+
+let expandedState = null; // currently expanded state abbreviation
+
 function renderHistory() {
   const history = getHistory();
   const section = document.getElementById('history-section');
-  const list = document.getElementById('history-list');
+  const grid = document.getElementById('state-grid');
+  const panel = document.getElementById('state-reports-panel');
 
   if (history.length === 0) {
     section.style.display = 'none';
@@ -203,49 +256,141 @@ function renderHistory() {
   }
 
   section.style.display = 'block';
-  list.innerHTML = '';  // Safe: no user data inserted via innerHTML here
 
-  history.forEach(entry => {
-    const li = document.createElement('li');
-    li.className = 'history-item';
+  // Group history by state
+  const byState = {};
+  for (const entry of history) {
+    const st = extractState(entry);
+    if (!byState[st]) byState[st] = [];
+    byState[st].push(entry);
+  }
 
-    const nameSpan = document.createElement('span');
-    nameSpan.className = 'history-name';
-    nameSpan.textContent = entry.candidateName;  // textContent — never innerHTML
+  // Render state grid — all main states, only show states with reports
+  grid.innerHTML = ''; // Safe: no user data
 
-    const districtSpan = document.createElement('span');
-    districtSpan.className = 'history-district';
-    districtSpan.textContent = entry.districtName || entry.districtKey || '';
+  // Get states that have reports, sorted alphabetically
+  const statesWithReports = MAIN_STATES.filter(s => byState[s]);
+  // Add any non-standard states (territories, "Other")
+  for (const s of Object.keys(byState)) {
+    if (!statesWithReports.includes(s)) statesWithReports.push(s);
+  }
 
-    const dateSpan = document.createElement('span');
-    dateSpan.className = 'history-date';
-    dateSpan.textContent = new Date(entry.generatedAt).toLocaleDateString();
+  if (statesWithReports.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'state-grid-empty';
+    empty.textContent = 'No reports generated yet.';
+    grid.appendChild(empty);
+    return;
+  }
 
-    const copyBtn = document.createElement('button');
-    copyBtn.className = 'history-copy-btn';
-    copyBtn.textContent = 'Copy';
-    copyBtn.type = 'button';
-    copyBtn.addEventListener('click', async () => {
-      await copyToClipboard(entry.url);
-      copyBtn.textContent = 'Copied!';
-      setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
+  for (const abbr of statesWithReports) {
+    const count = byState[abbr].length;
+    const bubble = document.createElement('div');
+    bubble.className = 'state-bubble' + (expandedState === abbr ? ' active' : '');
+    bubble.dataset.state = abbr;
+
+    // SVG outline
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('class', 'state-bubble-svg');
+    svg.setAttribute('viewBox', '0 0 100 100');
+    svg.setAttribute('aria-hidden', 'true');
+    const path = document.createElementNS(svgNS, 'path');
+    path.setAttribute('d', (stateOutlines && stateOutlines[abbr]) || '');
+    svg.appendChild(path);
+    bubble.appendChild(svg);
+
+    // State name
+    const nameEl = document.createElement('span');
+    nameEl.className = 'state-bubble-name';
+    nameEl.textContent = STATE_NAMES[abbr] || abbr;
+    bubble.appendChild(nameEl);
+
+    // Badge
+    const badge = document.createElement('span');
+    badge.className = 'state-badge';
+    badge.textContent = count;
+    bubble.appendChild(badge);
+
+    bubble.addEventListener('click', () => {
+      expandedState = expandedState === abbr ? null : abbr;
+      renderHistory(); // re-render to toggle active state + panel
     });
 
-    const urlSpan = document.createElement('span');
-    urlSpan.className = 'history-url';
-    urlSpan.textContent = entry.url;  // textContent — safe
+    grid.appendChild(bubble);
+  }
 
-    li.appendChild(nameSpan);
-    li.appendChild(districtSpan);
-    li.appendChild(dateSpan);
-    li.appendChild(copyBtn);
-    li.appendChild(urlSpan);
-    list.appendChild(li);
-  });
+  // Render expanded state reports panel
+  panel.innerHTML = ''; // Safe: no user data via innerHTML
+  if (expandedState && byState[expandedState]) {
+    const container = document.createElement('div');
+    container.className = 'state-reports';
+
+    const header = document.createElement('div');
+    header.className = 'state-reports-header';
+
+    const title = document.createElement('span');
+    title.className = 'state-reports-title';
+    title.textContent = `${STATE_NAMES[expandedState] || expandedState} Reports`;
+    header.appendChild(title);
+
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'state-reports-close';
+    closeBtn.type = 'button';
+    closeBtn.textContent = 'Close';
+    closeBtn.addEventListener('click', () => {
+      expandedState = null;
+      renderHistory();
+    });
+    header.appendChild(closeBtn);
+    container.appendChild(header);
+
+    const list = document.createElement('ul');
+    list.className = 'state-reports-list';
+
+    for (const entry of byState[expandedState]) {
+      const li = document.createElement('li');
+      li.className = 'report-item';
+
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'report-item-name';
+      nameSpan.textContent = entry.candidateName; // textContent — safe
+
+      const districtSpan = document.createElement('span');
+      districtSpan.className = 'report-item-district';
+      districtSpan.textContent = entry.districtName || '';
+
+      const dateSpan = document.createElement('span');
+      dateSpan.className = 'report-item-date';
+      dateSpan.textContent = new Date(entry.generatedAt).toLocaleDateString();
+
+      const copyBtn = document.createElement('button');
+      copyBtn.className = 'report-item-copy';
+      copyBtn.textContent = 'Copy';
+      copyBtn.type = 'button';
+      copyBtn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        await copyToClipboard(entry.url);
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
+      });
+
+      const urlSpan = document.createElement('span');
+      urlSpan.className = 'report-item-url';
+      urlSpan.textContent = entry.url; // textContent — safe
+
+      li.appendChild(nameSpan);
+      li.appendChild(districtSpan);
+      li.appendChild(dateSpan);
+      li.appendChild(copyBtn);
+      li.appendChild(urlSpan);
+      list.appendChild(li);
+    }
+
+    container.appendChild(list);
+    panel.appendChild(container);
+  }
 }
-
-// Render history on page load
-renderHistory();
 
 // — Form submission —
 let lastGeneratedUrl = null;
@@ -285,20 +430,20 @@ document.getElementById('report-form').addEventListener('submit', (e) => {
   const urlPreview = document.getElementById('url-preview');
   const urlText = document.getElementById('url-text');
   const urlLength = document.getElementById('url-length');
-  urlText.textContent = url;  // textContent — safe
+  urlText.textContent = url;
   urlLength.textContent = `${url.length} chars`;
   if (url.length > 500) urlLength.classList.add('url-length-warn');
   else urlLength.classList.remove('url-length-warn');
   urlPreview.style.display = 'block';
 
-  // Show copy button
   document.getElementById('copy-btn').style.display = 'inline-block';
 
-  // Add to history
+  // Add to history with state abbreviation
   addToHistory({
     url,
     candidateName: payload.candidateName,
     districtName: payload.districtName,
+    state: selectedDistrict.state,
     generatedAt: Date.now(),
   });
 
